@@ -97,32 +97,15 @@ class Rest():
         return req.status_code
 
     @staticmethod
-    def get_topology():
-        node_url = "%s/v1.0/topology/switches" % (RYU_SERVER_URL)
-        link_url = "%s/v1.0/topology/links" % (RYU_SERVER_URL)
+    def add_user(req_data):
+        usertable_url = "%s/simpleswitch/usertable" % (RYU_SERVER_URL)
         try:
-            node_req = requests.get(node_url)
-            link_req = requests.get(link_url)
-        except requests.exceptions.ConnectionError:
+            req = requests.post(usertable_url, data=req_data)
+        except requests.exceptions.eonnectionError:
             return False
 
+        return req.status_code
 
-        G = nx.Graph()
-        for node_group in node_req.json():
-            for node in node_group["ports"]:
-                dpid = hex2decimal(node['dpid'])
-                G.add_node(dpid)
-
-
-        for link_group in link_req.json():
-            for link in link_group:
-                src_dpid = hex2decimal(link_group["src"]["dpid"])
-                dst_dpid = hex2decimal(link_group["dst"]["dpid"])
-                G.add_edge(src_dpid, dst_dpid)
-
-        graph = json_graph.node_link_data(G)
-        return json.dumps(graph)
-
-
+ 
 
 

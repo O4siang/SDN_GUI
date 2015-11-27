@@ -60,16 +60,16 @@
             <div class="about-section pure-u-1">
 
             <center>
-              <form class="pure-form pure-form-stacked">
+              <form class="pure-form pure-form-stacked" action="/add" method="POST" target="_blank">
                 <fieldset>
                   <label for="username"><h3>{ User Name }</h3></label>
                   <br></br>
                   
-                  <input id="username" type="text"  placeholder="Username">
+                  <input name="username" type="text"  placeholder="Username">
                   <br></br>
                   <label for="mac"><h3>{ MAC Adress }</h3></label>
                   <br></br>
-                  <input class="pure-input-1-2" id="mac" type="text" placeholder="MAC Adress">  
+                  <input class="pure-input-1-2" name="mac" type="text" placeholder="MAC Adress">  
                   <br></br>
                   <button type="submit" class="pure-button pure-button-primary">Sign in</button>
               </fieldset>
@@ -88,9 +88,10 @@
               <h1 class="white">Flow Entry</h1>
             </div>
             <div class="contact-section pure-u-1">
-              {% if sw_desc %}
               <h2 class="white">Switch 狀態:{{ sw_desc }}</h2>
-              {% endif %}
+              <h2 class="white">Dpid 狀態:{{ dpid }}</h2>
+              <h2 class="white">Port 狀態:{{ port }}</h2>
+              <h2 class="white">Flow_table 狀態:{{ flow_table }}</h2>
               <!--<ul>
                 <li>
                     <a href="https://github.com/O4siang" target="_blank"><i class="fa fa-github"></i></a>
@@ -110,7 +111,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.6.9/jquery.fullPage.min.js"></script>
     <script type="text/javascript" src="{{ url_for("static", filename="assets/js/build.min.js") }}" charset="utf-8"></script>
-    <script type="text/javascript" src="{{ url_for("static", filename="js/xinui.js") }}"></script>
+    
 
   </body>
 </html>
