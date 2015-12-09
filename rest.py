@@ -98,6 +98,7 @@ class Rest():
 
     @staticmethod
     def add_user(req_data):
+        print req_data
         usertable_url = "%s/simpleswitch/usertable" % (RYU_SERVER_URL)
         try:
             req = requests.post(usertable_url, data=req_data)
