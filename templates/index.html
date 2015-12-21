@@ -59,8 +59,19 @@
             </div>
             <div class="about-section pure-u-1">
 
+            <script>
+            function myFunction() {
+              var x;
+              if (confirm("confirm to submit!") == true) {
+              x = "You pressed OK!";
+              } else {
+                x = "You pressed Cancel!";
+                }
+                document.getElementById("submit").innerHTML = x;
+            }
+            </script>
             <center>
-              <form class="pure-form pure-form-stacked" action="/add" method="POST" target="_blank">
+              <form class="pure-form pure-form-stacked" action="/add" method="POST">
                 <fieldset>
                   <label for="username"><h3>{ User Name }</h3></label>
                   <br></br>
@@ -69,9 +80,9 @@
                   <br></br>
                   <label for="mac"><h3>{ MAC Adress }</h3></label>
                   <br></br>
-                  <input class="pure-input-1-2" name="mac" type="text" placeholder="MAC Adress:00:11:AA:22:3A:7D">  
+                  <input class="pure-input-1-2" name="mac" type="text" placeholder="00:11:AA:22:3A:7D">  
                   <br></br>
-                  <button type="submit" class="pure-button pure-button-primary">Sign in</button>
+                  <button type="submit" class="pure-button pure-button-primary" id="submit" onclick="myFunction()">Submit</button>
               </fieldset>
               </form>
             </center>
@@ -88,18 +99,85 @@
               <h1 class="white">Flow Entry</h1>
             </div>
             <div class="contact-section pure-u-1">
-              <h2 class="white">Switch 狀態:{{ sw_desc }}</h2>
-              <h2 class="white">Dpid 狀態:{{ dpid }}</h2>
-              <h2 class="white">Port 狀態:{{ port }}</h2>
-              <h2 class="white">Flow_table 狀態:{{ flow_table }}</h2>
-              <!--<ul>
-                <li>
-                    <a href="https://github.com/O4siang" target="_blank"><i class="fa fa-github"></i></a>
-                    <a href="https://tw.linkedin.com/in/shihhsianglin" target="_blank"><i class="fa fa-linkedin-square"></i></a>
-                    <a href="https://twitter.com/O4siang" target="_blank"><i class="fa fa-twitter"></i></a>
-                    <a href="http://o4siang.logdown.com/" target="_blank" title="My Study Note"><i class="fa fa-book"></i></a>
-                    <a href="mailto:bob89069@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
-              </ul>-->
+              <h2 class="white">Switch 狀態:</h2>
+            
+            <table class="pure-table white" style="margin: 0px auto;">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>DPID desc.</th>
+                    <th>HW desc.</th>
+                    <th>Manufacture desc.</th>
+                    <th>Serial num</th>
+                    <th>SW desc.</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% if sw_desc %}
+                {% for sw in sw_desc %}
+                    {% for dpid1, desc in sw.iteritems() %}
+                        <tr>
+                            <td>{{ dpid1 }}</td>
+                            <td>{{ desc["dp_desc"] }}</td>
+                            <td>{{ desc["hw_desc"] }}</td>
+                            <td>{{ desc["mfr_desc"] }}</td>
+                            <td>{{ desc["serial_num"] }}</td>
+                            <td>{{ desc["sw_desc"] }}</td>
+                        </tr>
+                    {% endfor %}
+                {% endfor %}
+            {% endif %}
+            </tbody>
+        </table>
+
+              <!--<h2 class="white">Dpid 狀態:{{ dpid }}</h2>-->
+              <!--<h2 class="white">Port 狀態:{{ port }}</h2>-->
+              <h2 class="white">Flow_table 狀態:</h2>
+              
+              {% if dpid %}
+            <table class="pure-table white" style="margin: 0px auto;">
+                <thead>
+                    <tr>
+                        
+                        <th>Priority</th>
+                        <th>Match</th>
+                        <th>Actions</th>
+                        <th>Byte count</th>
+                        <th>Length</th>
+                        <th>Idle timeout</th>
+                        <th>Hard timeout</th>
+                        <th>Table id</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% if flow_table %}
+                    {% for key, list in flow_table.iteritems() %}
+                        {% for value in list %}
+                            <tr>
+                                <td>{{ value["priority"] }}</td>
+                                <td>
+                                    {{ value["match"] }}
+                                    {#
+                                    {% for m_key, m_value in value["match"].iteritems() %}
+                                      {{ m_key }}
+                                      {{ m_value }}
+                                    {% endfor %}
+                                    #}
+                                </td>
+                                <td>{{ value["actions"] }}</td>
+                                <td>{{ value["byte_count"] }}</td>
+                                <td>{{ value["length"] }}</td>
+                                <td>{{ value["idle_timeout"] }}</td>
+                                <td>{{ value["hard_timeout"] }}</td>
+                                <td>{{ value["table_id"] }}</td>
+
+                            </tr>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
+                </tbody>
+            </table>
+         {% endif %}
             </div>
 
             <footer>

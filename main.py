@@ -18,27 +18,27 @@ def main():
     sw_dpid_list = Rest.get_switch_list()
     print sw_dpid_list
     
-    #if sw_desc is False  or int(dpid) not in sw_dpid_list:		
+    #if sw_desc is False  or int(dpid) not in sw_dpid_list:     
      #   sw_desc = "not connected"
     for dpid in sw_dpid_list:
         print dpid
-    	dpid_t = dpid
-    	flow_table = None
-    	flow_table = Rest.get_flow_table(dpid)
-    	global global_flow_table
-    	global_flow_table = flow_table
-    	port = Rest.get_switch_port(dpid)
+        dpid_t = dpid
+        flow_table = None
+        flow_table = Rest.get_flow_table(dpid)
+        global global_flow_table
+        global_flow_table = flow_table
+        port = Rest.get_switch_port(dpid)
         print "test"
     return render_template("index.html",sw_desc=sw_desc,dpid=dpid_t, port=port, flow_table=flow_table)
 
 @app.route("/add", methods=['POST'])
 def add():
-	usertable = {}
-	usertable["username"] = request.form['username']
-	usertable["mac"] = request.form['mac']
-	print json.dumps(usertable)
-	Rest.add_user(json.dumps(usertable))
-	return "Add Completed"
+    usertable = {}
+    usertable["username"] = request.form['username']
+    usertable["mac"] = request.form['mac']
+    print json.dumps(usertable)
+    Rest.add_user(json.dumps(usertable))
+    return redirect(url_for('main'))
 
 @app.errorhandler(404)
 def page_not_found(error):
