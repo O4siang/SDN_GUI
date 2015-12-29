@@ -36,6 +36,7 @@ def add():
     usertable = {}
     usertable["username"] = request.form['username']
     usertable["mac"] = request.form['mac']
+    usertable["port"] = request.form['port']
     print json.dumps(usertable)
     Rest.add_user(json.dumps(usertable))
     return redirect(url_for('main'))
